@@ -22,51 +22,17 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.zookeeper</groupId>
-    <artifactId>zookeeper</artifactId>
+    <artifactId>parent</artifactId>
     <version>3.4.14-swi1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
   </parent>
 
-  <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper-client</artifactId>
+  <artifactId>zookeeper-metrics-providers</artifactId>
   <packaging>pom</packaging>
-  <name>Apache ZooKeeper - Client</name>
-  <description>ZooKeeper client</description>
+  <name>Apache ZooKeeper - Metrics Providers</name>
+  <description>ZooKeeper Metrics Providers</description>
 
-
-
-  <profiles>
-    <profile>
-      <id>full-build</id>
-      <modules>
-        <module>zookeeper-client-c</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>java-build</id>
-      <modules />
-    </profile>
-  </profiles>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>source-package</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <skipAssembly>true</skipAssembly>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  <modules>
+    <module>zookeeper-prometheus-metrics</module>
+  </modules>
 
 </project>

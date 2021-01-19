@@ -30,7 +30,7 @@
   <groupId>org.apache.zookeeper</groupId>
   <artifactId>zookeeper</artifactId>
   <packaging>pom</packaging>
-  <version>3.4.14</version>
+  <version>3.4.14-swi1-SNAPSHOT</version>
   <name>Apache ZooKeeper</name>
   <description>
     ZooKeeper is a centralized service for maintaining configuration information, naming,
@@ -64,10 +64,12 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/zookeeper.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/zookeeper.git</developerConnection>
-    <url>https://gitbox.apache.org/repos/asf/zookeeper.git</url>
+    <url>https://github.com/solarwindscloud/zookeeper</url>
+    <connection>scm:git:git://github.com/solarwindscloud/zookeeper</connection>
+    <developerConnection>scm:git:git@github.com:solarwindscloud/zookeeper</developerConnection>
+    <tag>HEAD</tag>
   </scm>
+
   <issueManagement>
     <system>JIRA</system>
     <url>http://issues.apache.org/jira/browse/ZOOKEEPER</url>
@@ -244,6 +246,14 @@
     </developer>
   </developers>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>Solarwinds Cloud Maven Packages</name>
+      <url>https://maven.pkg.github.com/solarwindscloud/maven-releases</url>
+    </repository>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>full-build</id>
@@ -289,6 +299,24 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-jute</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
