@@ -31,7 +31,7 @@
   <artifactId>parent</artifactId>
   <packaging>pom</packaging>
   <!-- to change version: mvn -B release:update-versions -DdevelopmentVersion=3.6.0-SNAPSHOT -->
-  <version>3.8.0-SNAPSHOT</version>
+  <version>3.4.14-swi1-SNAPSHOT</version>
   <name>Apache ZooKeeper</name>
   <description>
     ZooKeeper is a centralized service for maintaining configuration information, naming,
@@ -68,192 +68,19 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/zookeeper.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/zookeeper.git</developerConnection>
-    <url>https://gitbox.apache.org/repos/asf/zookeeper.git</url>
+    <url>https://github.com/solarwindscloud/zookeeper</url>
+    <connection>scm:git:git://github.com/solarwindscloud/zookeeper</connection>
+    <developerConnection>scm:git:git@github.com:solarwindscloud/zookeeper</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://issues.apache.org/jira/browse/ZOOKEEPER</url>
-  </issueManagement>
-  <ciManagement>
-    <system>jenkins</system>
-    <url>https://ci-hadoop.apache.org/view/ZooKeeper/</url>
-  </ciManagement>
-  <mailingLists>
-    <mailingList>
-      <name>User List</name>
-      <subscribe>user-subscribe@zookeeper.apache.org</subscribe>
-      <unsubscribe>user-unsubscribe@zookeeper.apache.org</unsubscribe>
-      <post>user@zookeeper.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/zookeeper-user/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Developer List</name>
-      <subscribe>dev-subscribe@zookeeper.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@zookeeper.apache.org</unsubscribe>
-      <post>dev@zookeeper.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/zookeeper-dev/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Commits List</name>
-      <subscribe>commits-subscribe@zookeeper.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@zookeeper.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/zookeeper-commits/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Issues List</name>
-      <subscribe>issues-subscribe@zookeeper.apache.org</subscribe>
-      <unsubscribe>issues-unsubscribe@zookeeper.apache.org</unsubscribe>
-      <archive>https://lists.apache.org/list.html?issues@zookeeper.apache.org</archive>
-    </mailingList>
-    <mailingList>
-      <name>Notifications List</name>
-      <subscribe>notifications-subscribe@zookeeper.apache.org</subscribe>
-      <unsubscribe>notifications-unsubscribe@zookeeper.apache.org</unsubscribe>
-      <archive>https://lists.apache.org/list.html?notifications@zookeeper.apache.org</archive>
-    </mailingList>
-  </mailingLists>
-  <developers>
-    <developer>
-      <id>tdunning</id>
-      <name>Ted Dunning</name>
-      <email>tdunning@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>camille</id>
-      <name>Camille Fournier</name>
-      <email>camille@apache.org</email>
-      <timezone>-5</timezone>
-    </developer>
-    <developer>
-      <id>phunt</id>
-      <name>Patrick Hunt</name>
-      <email>phunt@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>fpj</id>
-      <name>Flavio Junqueira</name>
-      <email>fpj@apache.org</email>
-      <timezone>+0</timezone>
-    </developer>
-    <developer>
-      <id>ivank</id>
-      <name>Ivan Kelly</name>
-      <email>ivank@apache.org</email>
-      <timezone>+2</timezone>
-    </developer>
-    <developer>
-      <id>mahadev</id>
-      <name>Mahadev Konar</name>
-      <email>mahadev@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>michim</id>
-      <name>Michi Mutsuzaki</name>
-      <email>michim@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>cnauroth</id>
-      <name>Chris Nauroth</name>
-      <email>cnauroth@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>breed</id>
-      <name>Benjamin Reed</name>
-      <email>breed@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>henry</id>
-      <name>Henry Robinson</name>
-      <email>henry@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>rgs</id>
-      <name>Raul Gutierrez Segales</name>
-      <email>rgs@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>rakeshr</id>
-      <name>Rakesh Radhakrishnan</name>
-      <email>rakeshr@apache.org</email>
-      <timezone>+5:30</timezone>
-    </developer>
-    <developer>
-      <id>hanm</id>
-      <name>Michael Han</name>
-      <email>hanm@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>gkesavan</id>
-      <name>Giridharan Kesavan</name>
-      <email>gkesavan@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>akornev</id>
-      <name>Andrew Kornev</name>
-      <email>akornev@apache.org</email>
-    </developer>
-    <developer>
-      <id>shralex</id>
-      <name>Alex Shraer</name>
-      <email>shralex@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>thawan</id>
-      <name>Thawan Kooburat</name>
-      <email>thawan@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>hdeng</id>
-      <name>Hongchao Deng</name>
-      <email>hdeng@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>arshad</id>
-      <name>Mohammad Arshad</name>
-      <email>arshad@apache.org</email>
-      <timezone>+5:30</timezone>
-    </developer>
-    <developer>
-      <id>afine</id>
-      <name>Abraham Fine</name>
-      <email>afine@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-      <id>andor</id>
-      <name>Andor Molnar</name>
-      <email>andor@apache.org</email>
-      <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <id>lvfangmin</id>
-      <name>Allan Lyu</name>
-      <email>fangmin@apache.org</email>
-      <timezone>-8</timezone>
-    </developer>
-    <developer>
-        <id>eolivelli</id>
-        <name>Enrico Olivelli</name>
-        <email>eolivelli@apache.org</email>
-        <timezone>+1</timezone>
-    </developer>
-  </developers>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>Solarwinds Cloud Maven Packages</name>
+      <url>https://maven.pkg.github.com/solarwindscloud/maven-releases</url>
+    </repository>
+  </distributionManagement>
 
   <profiles>
     <profile>
@@ -273,46 +100,7 @@
         <module>zookeeper-it</module>
       </modules>
     </profile>
-    <profile>
-        <id>apache-release</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.apache.resources</groupId>
-                            <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                            <version>1.0.6</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <id>source-release-assembly-tar-gz</id>
-                            <phase>initialize</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                                <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-                                <descriptorRefs>
-                                    <!-- defined in Apache Parent Pom -->
-                                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
-                                </descriptorRefs>
-                                <finalName>apache-zookeeper-${project.version}</finalName>
-                                <appendAssemblyId>false</appendAssemblyId>
-                                <formats>
-                                    <format>tar.gz</format>
-                                </formats>
-                                <tarLongFileMode>posix</tarLongFileMode>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
+
     <profile>
       <id>m2e</id>
       <activation>
