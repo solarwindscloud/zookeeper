@@ -44,9 +44,10 @@ jobs:
   deploy:
     executor: java
     steps:
-      - add_ssh_keys
       - checkout
       - cacheit
+      - run: |
+          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
       - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
       - run:
           name: Deploy snapshot
@@ -64,9 +65,10 @@ jobs:
     executor: java
 
     steps:
-      - add_ssh_keys
       - checkout
       - cacheit
+      - run: |
+          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
       - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
       - run:
           name: Check versions
@@ -110,14 +112,18 @@ workflows:
       - build:
           context: org-global
       - deploy:
-          context: org-global
+          context:
+            - org-global
+            - GH_LIBRATO_CI_REPO
           requires:
             - build
           filters:
             branches:
               ignore: master
       - release:
-          context: org-global
+          context:
+            - org-global
+            - GH_LIBRATO_CI_REPO
           filters:
             branches:
               only: master
