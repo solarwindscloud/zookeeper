@@ -126,6 +126,7 @@
                     <format>tar.gz</format>
                   </formats>
                   <tarLongFileMode>posix</tarLongFileMode>
+                  <attach>false</attach>
                 </configuration>
               </execution>
             </executions>
@@ -511,6 +512,9 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>3.3.0</version>
+          <configuration>
+            <attach>false</attach>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
