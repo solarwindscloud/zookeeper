@@ -35,21 +35,6 @@ commands:
           key: maven-repo-v1-{{ .Branch }}-{{ checksum "/tmp/maven_cached_poms" }}
 
 jobs:
-  scan:
-    executor: java
-    steps:
-      - checkout
-      - cacheit
-      - run: mvn install -DskipTests
-      - run:
-          command: |
-            cp .circleci/m2/settings.xml ~/.m2/settings.xml
-            bash <(curl -s -L https://raw.githubusercontent.com/whitesource/unified-agent-distribution/master/standAlone/wss_agent_orb.sh) \
-              -apiKey ${WHITESOURCE_API_KEY} \
-              -c .whitesource/wss-unified-agent.config \
-              -d .
-      - run: mvn org.owasp:dependency-check-maven:6.0.5:check -DfailBuildOnCVSS=8
-
   build:
     executor: java
     steps:
@@ -122,10 +107,6 @@ workflows:
   version: 2
   build_test_release:
     jobs:
-      - scan:
-          context:
-            - org-global
-            - WHITESOURCE
       - build:
           context: org-global
       - deploy:
