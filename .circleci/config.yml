@@ -57,7 +57,21 @@ jobs:
             NEW_VERSION=${VERSION%%-SNAPSHOT}-$BRANCH-SNAPSHOT
 
             mvn versions:set -DnewVersion=$NEW_VERSION
-            mvn -s .circleci/m2/settings.xml deploy -DskipTests
+            mvn -s .circleci/m2/settings.xml package -DskipTests
+            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+              -DartifactId=zookeeper-jute \
+              -Dversion=$NEW_VERSION \
+              -Dpackaging=jar \
+              -Dfile=zookeeper-jute/target/zookeeper-$VERSION.jar \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
+            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+              -DartifactId=zookeeper \
+              -Dversion=$NEW_VERSION \
+              -Dpackaging=jar \
+              -Dfile=zookeeper-server/target/zookeeper-$VERSION.jar \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
             .circleci/notify.sh "A new snapshot is ready \`$NEW_VERSION\`"
 
@@ -79,27 +93,25 @@ jobs:
             git config user.name "librato-ci"
             git config user.email "tools+librato-ci-githublibrato.com"
       - run:
-          name: Prepare release
-          command: |
-            mvn -s .circleci/m2/settings.xml \
-                --batch-mode \
-                -DscmCommentPrefix="[maven-release-plugin][ci skip] " \
-                -Ddependency-check.skip=true \
-                -DskipTests \
-                -Darguments="-DskipTests -Ddependency-check.skip=true" \
-                release:prepare
-      - run:
           name: Perform release
           command: |
-            mvn -s .circleci/m2/settings.xml \
-                --batch-mode \
-                -Ddependency-check.skip=true \
-                -DskipTests \
-                -Darguments="-DskipTests -Ddependency-check.skip=true" \
-                release:perform
 
-            # Go back to the commit before the snapshot
-            git reset --hard HEAD~1
+            mvn versions set to release
+
+            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+              -DartifactId=zookeeper-jute \
+              -Dversion=$NEW_VERSION \
+              -Dpackaging=jar \
+              -Dfile=zookeeper-jute/target/zookeeper-$VERSION.jar \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
+            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+              -DartifactId=zookeeper \
+              -Dversion=$NEW_VERSION \
+              -Dpackaging=jar \
+              -Dfile=zookeeper-server/target/zookeeper-$VERSION.jar \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             echo "Current version is $VERSION"
@@ -114,7 +126,7 @@ workflows:
           filters:
             branches:
               # Note this will need to be updated any time we need to branch again!
-              only: SP-2583_name_resolver_fix_1
+              only: SP-2583_name_resolver_fix_2
       - deploy:
           context:
             - org-global
@@ -124,7 +136,7 @@ workflows:
           filters:
             branches:
               # Note this will need to be updated any time we need to branch again!
-              only: SP-2583_name_resolver_fix_1
+              only: SP-2583_name_resolver_fix_2
       - release:
           context:
             - org-global
