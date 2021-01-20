@@ -1,0 +1,134 @@
+version: 2.1
+
+executors:
+  java:
+    parameters:
+      tag:
+        type: string
+        default: adoptopenjdk12
+    docker:
+      - image: 209556801791.dkr.ecr.us-east-1.amazonaws.com/librato/java-ci:<< parameters.tag >>
+        aws_auth:
+          aws_access_key_id: $LIBRATO_ECR_AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $LIBRATO_ECR_AWS_SECRET_ACCESS_KEY
+    environment:
+      PROJECT_NAME: zookeeper
+      SLACK_NOTIFY_URL: "https://hooks.slack.com/services/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"
+      SLACK_NOTIFY_CHANNEL: "#log-ingestion-notify"
+      EMOJI: ":circle-pass:"
+
+commands:
+  cacheit:
+    steps:
+      - run:
+          name: generate cache checksum
+          command: find . -name pom.xml | sort | xargs -n 1 cat > /tmp/maven_cached_poms
+      - restore_cache:
+          keys:
+            - maven-repo-v1-{{ .Branch }}-{{ checksum "/tmp/maven_cached_poms" }}
+            - maven-repo-v1-{{ .Branch }}-
+            - maven-repo-v1-
+      - run: mvn -q -s .circleci/m2/settings.xml test-compile
+      - save_cache:
+          paths:
+            - ~/.m2/repository
+          key: maven-repo-v1-{{ .Branch }}-{{ checksum "/tmp/maven_cached_poms" }}
+
+jobs:
+  build:
+    executor: java
+    steps:
+      - checkout
+      - cacheit
+
+  deploy:
+    executor: java
+    steps:
+      - checkout
+      - cacheit
+      - run: |
+          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
+      - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
+      - run:
+          name: Deploy snapshot
+          command: |
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            BRANCH=$(echo -n "${CIRCLE_BRANCH}" | sed -e 's/[^0-9a-zA-Z\._\-]/./g' | tr '[:upper:]' '[:lower:]')
+            NEW_VERSION=${VERSION%%-SNAPSHOT}-$BRANCH-SNAPSHOT
+
+            mvn versions:set -DnewVersion=$NEW_VERSION
+            mvn -s .circleci/m2/settings.xml deploy -DskipTests
+
+            .circleci/notify.sh "A new snapshot is ready \`$NEW_VERSION\`"
+
+  release:
+    executor: java
+
+    steps:
+      - checkout
+      - cacheit
+      - run: |
+          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
+      - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
+      - run:
+          name: Check versions
+          command: mvn versions:use-releases
+      - run:
+          name: Configure git for release
+          command: |
+            git config user.name "librato-ci"
+            git config user.email "tools+librato-ci-githublibrato.com"
+      - run:
+          name: Prepare release
+          command: |
+            mvn -s .circleci/m2/settings.xml \
+                --batch-mode \
+                -DscmCommentPrefix="[maven-release-plugin][ci skip] " \
+                -Ddependency-check.skip=true \
+                -DskipTests \
+                -Darguments="-DskipTests -Ddependency-check.skip=true" \
+                release:prepare
+      - run:
+          name: Perform release
+          command: |
+            mvn -s .circleci/m2/settings.xml \
+                --batch-mode \
+                -Ddependency-check.skip=true \
+                -DskipTests \
+                -Darguments="-DskipTests -Ddependency-check.skip=true" \
+                release:perform
+
+            # Go back to the commit before the snapshot
+            git reset --hard HEAD~1
+
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            echo "Current version is $VERSION"
+            .circleci/notify.sh "A new release is ready \`$VERSION\`"
+
+workflows:
+  version: 2
+  build_test_release:
+    jobs:
+      - build:
+          context: org-global
+          filters:
+            branches:
+              # Note this will need to be updated any time we need to branch again!
+              only: SP-2583_name_resolver_fix_1
+      - deploy:
+          context:
+            - org-global
+            - GH_LIBRATO_CI_REPO
+          requires:
+            - build
+          filters:
+            branches:
+              # Note this will need to be updated any time we need to branch again!
+              only: SP-2583_name_resolver_fix_1
+      - release:
+          context:
+            - org-global
+            - GH_LIBRATO_CI_REPO
+          filters:
+            branches:
+              only: branch-3.4.14-swi
