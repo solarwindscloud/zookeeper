@@ -71,7 +71,7 @@ jobs:
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
               -DpomFile=zookeeper/pom.xml \
-              -Dfile=zookeeper-server/target/zookeeper-server-$NEW_VERSION.jar \
+              -Dfile=zookeeper/target/zookeeper-$VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
