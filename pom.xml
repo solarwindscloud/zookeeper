@@ -28,7 +28,7 @@
     <!-- no parent resolution -->
   </parent>
   <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper</artifactId>
+  <artifactId>zookeeper-parent</artifactId>
   <packaging>pom</packaging>
   <version>3.4.14-swi1-SNAPSHOT</version>
   <name>Apache ZooKeeper</name>
@@ -61,6 +61,7 @@
     <module>zookeeper-server</module>
     <module>zookeeper-client</module>
     <module>zookeeper-recipes</module>
+    <module>zookeeper</module>
   </modules>
 
   <scm>
@@ -289,6 +290,23 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-jute</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
