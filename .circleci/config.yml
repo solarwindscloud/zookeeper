@@ -60,6 +60,13 @@ jobs:
             mvn -s .circleci/m2/settings.xml package -DskipTests
 
             mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
+              -DartifactId=zookeeper-parent \
+              -Dversion=$NEW_VERSION \
+              -Dpackaging=pom \
+              -Dfile=pom.xml \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
@@ -95,8 +102,15 @@ jobs:
             mvn -s .circleci/m2/settings.xml package -DskipTests
 
             mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
+              -DartifactId=zookeeper-parent \
+              -Dversion=$VERSION \
+              -Dpackaging=pom \
+              -Dfile=pom.xml \
+              -DrepositoryId=github \
+              -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper \
-              -Dversion=$NEW_VERSION \
+              -Dversion=$VERSION \
               -Dpackaging=jar \
               -DpomFile=zookeeper/pom.xml \
               -Dfile=zookeeper/target/zookeeper-$VERSION.jar \
