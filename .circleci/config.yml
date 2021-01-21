@@ -68,7 +68,7 @@ jobs:
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
-              -Dfile=zookeeper-metrics-providers/zookeeper-prometheus-metrics/target/lib/zookeeper-$NEW_VERSION.jar \
+              -Dfile=zookeeper-server/target/lib/zookeeper-server-$NEW_VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
@@ -109,7 +109,7 @@ jobs:
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
-              -Dfile=zookeeper-metrics-providers/zookeeper-prometheus-metrics/target/lib/zookeeper-$VERSION.jar \
+              -Dfile=zookeeper-server/target/lib/zookeeper-server-$VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
