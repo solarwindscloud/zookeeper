@@ -57,14 +57,14 @@ jobs:
             NEW_VERSION=${VERSION%%-SNAPSHOT}-$BRANCH-SNAPSHOT
             mvn versions:set -DnewVersion=$NEW_VERSION
             mvn -s .circleci/m2/settings.xml package -DskipTests
-            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper-jute \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
               -Dfile=zookeeper-jute/target/zookeeper-jute-$NEW_VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
-            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
@@ -98,14 +98,14 @@ jobs:
             mvn versions:set -DnewVersion=$VERSION
 
             mvn -s .circleci/m2/settings.xml package -DskipTests
-            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper-jute \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
               -Dfile=zookeeper-jute/target/zookeeper-jute-$VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
-            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.apache.zookeeper \
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
