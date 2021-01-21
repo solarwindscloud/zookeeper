@@ -55,17 +55,16 @@ jobs:
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             BRANCH=$(echo -n "${CIRCLE_BRANCH}" | sed -e 's/[^0-9a-zA-Z\._\-]/./g' | tr '[:upper:]' '[:lower:]')
             NEW_VERSION=${VERSION%%-SNAPSHOT}-$BRANCH-SNAPSHOT
-
             mvn versions:set -DnewVersion=$NEW_VERSION
             mvn -s .circleci/m2/settings.xml package -DskipTests
-            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
               -DartifactId=zookeeper-jute \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
-              -Dfile=zookeeper-jute/target/zookeeper-$VERSION.jar \
+              -Dfile=zookeeper-jute/target/zookeeper-jute-$VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
-            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
@@ -95,17 +94,20 @@ jobs:
       - run:
           name: Perform release
           command: |
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            BRANCH=$(echo -n "${CIRCLE_BRANCH}" | sed -e 's/[^0-9a-zA-Z\._\-]/./g' | tr '[:upper:]' '[:lower:]')
+            NEW_VERSION=${VERSION%%-SNAPSHOT}
+            mvn versions:set -DnewVersion=$NEW_VERSION
 
-            mvn versions set to release
-
-            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml package -DskipTests
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
               -DartifactId=zookeeper-jute \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
-              -Dfile=zookeeper-jute/target/zookeeper-$VERSION.jar \
+              -Dfile=zookeeper-jute/target/zookeeper-jute-$VERSION.jar \
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
-            mvn deploy:deploy-file -DgroupId=org.zookeeper \
+            mvn -s .circleci/m2/settings.xml deploy:deploy-file -DgroupId=org.zookeeper \
               -DartifactId=zookeeper \
               -Dversion=$NEW_VERSION \
               -Dpackaging=jar \
