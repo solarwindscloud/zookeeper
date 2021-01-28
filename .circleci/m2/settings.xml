@@ -4,10 +4,6 @@
   http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <servers>
         <server>
-            <id>packagecloud-librato</id>
-            <password>${env.PACKAGECLOUD_TOKEN}</password>
-        </server>
-        <server>
             <id>github</id>
             <username>librato-ci</username>
             <password>${env.GITHUB_PACKAGE_READ_TOKEN}</password>

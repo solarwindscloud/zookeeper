@@ -58,6 +58,7 @@ public final class ConnectStringParser {
                 serverAddresses.add(new InetSocketAddress(InetAddress.getByName(host), port));
             } catch (UnknownHostException e) {
                 log.error("Unable to resolve the hostname of the Zookeeper server", e);
+                throw new RuntimeException(e);
             }
         }
     }
