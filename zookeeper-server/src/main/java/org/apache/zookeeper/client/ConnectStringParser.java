@@ -25,12 +25,12 @@ import org.apache.zookeeper.common.PathUtils;
 
 /**
  * A parser for ZooKeeper Client connect strings.
- *
+ * 
  * This class is not meant to be seen or used outside of ZooKeeper itself.
- *
+ * 
  * The chrootPath member should be replaced by a Path object in issue
  * ZOOKEEPER-849.
- *
+ * 
  * @see org.apache.zookeeper.ZooKeeper
  */
 public final class ConnectStringParser {
@@ -41,7 +41,7 @@ public final class ConnectStringParser {
     private final ArrayList<InetSocketAddress> serverAddresses = new ArrayList<InetSocketAddress>();
 
     /**
-     *
+     * 
      * @throws IllegalArgumentException
      *             for an invalid chroot path.
      */
