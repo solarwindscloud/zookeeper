@@ -28,9 +28,9 @@
     <!-- no parent resolution -->
   </parent>
   <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper</artifactId>
+  <artifactId>zookeeper-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.4.14</version>
+  <version>3.4.14-swi1-SNAPSHOT</version>
   <name>Apache ZooKeeper</name>
   <description>
     ZooKeeper is a centralized service for maintaining configuration information, naming,
@@ -61,6 +61,7 @@
     <module>zookeeper-server</module>
     <module>zookeeper-client</module>
     <module>zookeeper-recipes</module>
+    <module>zookeeper</module>
   </modules>
 
   <scm>
@@ -262,8 +263,8 @@
 
   <properties>
     <!-- maven properties -->
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <dependency.locations.enabled>false</dependency.locations.enabled>
 
     <surefire-forkcount>1</surefire-forkcount>
@@ -289,6 +290,23 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-jute</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper-server</artifactId>
+        <version>${project.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
