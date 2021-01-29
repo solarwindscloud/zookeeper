@@ -97,7 +97,8 @@ jobs:
       - run:
           name: Perform release
           command: |
-            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed s/-SNAPSHOT//)
+            mvn versions:set -DnewVersion=$VERSION versions:commit
 
             mvn -s .circleci/m2/settings.xml package -DskipTests
 
@@ -129,7 +130,9 @@ workflows:
           filters:
             branches:
               # Note this will need to be updated any time we need to branch again!
-              only: SP-2583_name_resolver_fix_2
+              only:
+                - SP-2583_name_resolver_fix_2
+                - branch-3.4.14-swi
       - deploy:
           context:
             - org-global
@@ -144,6 +147,8 @@ workflows:
           context:
             - org-global
             - GH_LIBRATO_CI_REPO
+          requires:
+            - build
           filters:
             branches:
               only: branch-3.4.14-swi
