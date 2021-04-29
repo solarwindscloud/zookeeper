@@ -5,15 +5,15 @@ executors:
     parameters:
       tag:
         type: string
-        default: adoptopenjdk12
+        default: 12-jdk-hotspot
     docker:
-      - image: 209556801791.dkr.ecr.us-east-1.amazonaws.com/librato/java-ci:<< parameters.tag >>
+      - image: 377069709311.dkr.ecr.us-east-1.amazonaws.com/base_ci_build:<< parameters.tag >>
         aws_auth:
-          aws_access_key_id: $LIBRATO_ECR_AWS_ACCESS_KEY_ID
-          aws_secret_access_key: $LIBRATO_ECR_AWS_SECRET_ACCESS_KEY
+          aws_access_key_id: $ECR_AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $ECR_AWS_SECRET_ACCESS_KEY
+    working_directory: ~/repo
     environment:
       PROJECT_NAME: zookeeper
-      SLACK_NOTIFY_URL: "https://hooks.slack.com/services/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"
       SLACK_NOTIFY_CHANNEL: "#log-ingestion-notify"
       EMOJI: ":circle-pass:"
 
@@ -48,7 +48,6 @@ jobs:
       - cacheit
       - run: |
           git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
-      - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
       - run:
           name: Deploy snapshot
           command: |
@@ -75,7 +74,8 @@ jobs:
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
-            .circleci/notify.sh "A new snapshot is ready \`$NEW_VERSION\`"
+            source /ci-scripts/bin/helpers.sh
+            send_to_slack "A new snapshot is ready \`$NEW_VERSION\`"
 
   release:
     executor: java
@@ -85,7 +85,6 @@ jobs:
       - cacheit
       - run: |
           git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
-      - run: git clone git@github.com:librato/ci-scripts.git ci-scripts
       - run:
           name: Check versions
           command: mvn versions:use-releases
@@ -118,25 +117,29 @@ jobs:
               -DrepositoryId=github \
               -Durl=https://maven.pkg.github.com/solarwindscloud/maven-releases
 
-            echo "Current version is $VERSION"
-            .circleci/notify.sh "A new release is ready \`$VERSION\`"
+            source /ci-scripts/bin/helpers.sh
+            send_to_slack "A new release is ready \`$VERSION\`"
 
 workflows:
   version: 2
   build_test_release:
     jobs:
       - build:
-          context: org-global
+          context:
+            - AWS_CIRCLE_CI_BUILD
+            - GH_LIBRATO_CI_PKG_READ
+            - WHITESOURCE
           filters:
             branches:
               # Note this will need to be updated any time we need to branch again!
               only:
-                - SP-2583_name_resolver_fix_2
                 - branch-3.4.14-swi
       - deploy:
           context:
-            - org-global
-            - GH_LIBRATO_CI_REPO
+            - AWS_CIRCLE_CI_BUILD
+            - GH_LIBRATO_CI_PKG_READ
+            - GH_LIBRATO_CI_PKG_WRITE
+            - SLACK_HOOK
           requires:
             - build
           filters:
@@ -145,8 +148,10 @@ workflows:
               only: SP-2583_name_resolver_fix_2
       - release:
           context:
-            - org-global
-            - GH_LIBRATO_CI_REPO
+            - AWS_CIRCLE_CI_BUILD
+            - GH_LIBRATO_CI_PKG_READ
+            - GH_LIBRATO_CI_PKG_WRITE
+            - SLACK_HOOK
           requires:
             - build
           filters:
