@@ -46,8 +46,6 @@ jobs:
     steps:
       - checkout
       - cacheit
-      - run: |
-          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
       - run:
           name: Deploy snapshot
           command: |
@@ -83,9 +81,6 @@ jobs:
     steps:
       - checkout
       - cacheit
-      - run: |
-          git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf git@github.com:
-          git config --global url."https://${GITHUB_TOKEN}:@maven.pkg.github.com/".insteadOf https://maven.pkg.github.com/
       - run:
           name: Check versions
           command: mvn versions:use-releases

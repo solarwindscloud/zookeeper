@@ -23,27 +23,47 @@
   <parent>
     <groupId>org.apache.zookeeper</groupId>
     <artifactId>zookeeper-contrib</artifactId>
-    <version>3.4.14-swi4-SNAPSHOT</version>
+    <version>3.4.14-swi3-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper-contrib-loggraph</artifactId>
+  <artifactId>zookeeper-contrib-rest</artifactId>
   <packaging>jar</packaging>
-  <name>Apache ZooKeeper - Contrib - Loggraph</name>
+  <name>Apache ZooKeeper - Contrib - Rest</name>
   <description>
-    LogGraph is an application for viewing and filtering zookeeper logs. It can handle transaction logs and message logs.
+    ZooKeeper REST implementation using Jersey JAX-RS.
+    --------------------------------------------------
+
+    This is an implementation of version 2 of the ZooKeeper REST spec.
+
+    Note: This interface is currently experimental, may change at any time,
+    etc... In general you should be using the Java/C client bindings to access
+    the ZooKeeper server.
+
+    This REST ZooKeeper gateway is useful because most of the languages
+    have built-in support for working with HTTP based protocols.
+
+    See SPEC.txt for details on the REST binding.
   </description>
+
+  <properties>
+    <asm.version>3.1</asm.version>
+    <grizzly.version>1.9.8</grizzly.version>
+    <jersey.version>1.1.5.1</jersey.version>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper-jute</artifactId>
-      <version>3.4.14-swi4-SNAPSHOT</version>
+      <artifactId>zookeeper-server</artifactId>
+      <version>3.4.14-swi3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.zookeeper</groupId>
       <artifactId>zookeeper-server</artifactId>
-      <version>3.4.14-swi4-SNAPSHOT</version>
+      <version>3.4.14-swi3-SNAPSHOT</version>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -70,25 +90,49 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>${asm.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
+      <groupId>com.sun.grizzly</groupId>
+      <artifactId>grizzly-servlet-webserver</artifactId>
+      <version>${grizzly.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources/webapp</directory>
-      </resource>
-    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- ToDo -->
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

@@ -23,27 +23,36 @@
   <parent>
     <groupId>org.apache.zookeeper</groupId>
     <artifactId>zookeeper-contrib</artifactId>
-    <version>3.4.14-swi4-SNAPSHOT</version>
+    <version>3.4.14-swi3-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper-contrib-loggraph</artifactId>
+  <artifactId>zookeeper-contrib-zooinspector</artifactId>
   <packaging>jar</packaging>
-  <name>Apache ZooKeeper - Contrib - Loggraph</name>
+  <name>Apache ZooKeeper - Contrib - ZooInspector</name>
   <description>
-    LogGraph is an application for viewing and filtering zookeeper logs. It can handle transaction logs and message logs.
+    ZooInspector is a Java Swing based application for browsing and editing ZooKeeper instances.
   </description>
+
+  <properties>
+    <rat.version>0.6</rat.version>
+    <commons-lang.version>2.4</commons-lang.version>
+    <guava.version>18.0</guava.version>
+    <toaster.version>1.0.4</toaster.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>local-contrib-repo</id>
+      <url>file://${basedir}/lib</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper-jute</artifactId>
-      <version>3.4.14-swi4-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.zookeeper</groupId>
       <artifactId>zookeeper-server</artifactId>
-      <version>3.4.14-swi4-SNAPSHOT</version>
+      <version>3.4.14-swi3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -70,25 +79,34 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
+      <groupId>org.apache.rat</groupId>
+      <artifactId>apache-rat-tasks</artifactId>
+      <version>${rat.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.nitido.utils</groupId>
+      <artifactId>toaster</artifactId>
+      <version>${toaster.version}</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources/webapp</directory>
-      </resource>
-    </resources>
-  </build>
 
 </project>
